@@ -22,7 +22,7 @@ export default defineConfig({
   },
   verify: {
     etherscan: {
-      apiKey: "rs_cc30cd594a299e8ee422b236"
+      apiKey: "YOUR_API_KEY"
     }
   },
   networks: {

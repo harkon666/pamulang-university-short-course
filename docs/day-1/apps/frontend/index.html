@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 1 - Connect Wallet Demo | Avalanche dApp</title>
+  <meta name="description" content="Avalanche Connect Wallet Demo - Pamulang University Short Course Day 1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <span class="logo-text">Avalanche dApp</span>
+        </div>
+        <div class="header-badge">
+          <span class="badge">Day 1 - Connect Wallet</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+          <h1 class="hero-title">
+            <span class="gradient-text">Connect Your Wallet</span>
+          </h1>
+          <p class="hero-subtitle">
+            Hubungkan wallet Anda ke Avalanche Fuji Testnet untuk memulai interaksi dengan dApp
+          </p>
+        </section>
+
+        <!-- Wallet Card -->
+        <section class="wallet-section">
+          <div class="wallet-card">
+            <!-- Connection Status -->
+            <div class="status-bar" id="statusBar">
+              <div class="status-indicator disconnected" id="statusIndicator"></div>
+              <span class="status-text" id="statusText">Wallet Belum Terhubung</span>
+            </div>
+
+            <!-- Connect Button -->
+            <div class="connect-section" id="connectSection">
+              <button class="connect-btn" id="connectBtn" onclick="connectWallet()">
+                <svg class="wallet-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="6" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2" />
+                  <path d="M2 10H22" stroke="currentColor" stroke-width="2" />
+                  <circle cx="17" cy="14" r="2" fill="currentColor" />
+                </svg>
+                <span>Connect Wallet</span>
+              </button>
+              <p class="connect-hint">Pastikan Core Wallet sudah terinstall dan terhubung ke Avalanche Fuji Testnet</p>
+            </div>
+
+            <!-- Wallet Info (Hidden by default) -->
+            <div class="wallet-info hidden" id="walletInfo">
+              <!-- Network Info -->
+              <div class="info-group">
+                <div class="info-label">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                    <path d="M2 12H22" stroke="currentColor" stroke-width="2" />
+                    <path d="M12 2C14.5 4.5 16 8 16 12C16 16 14.5 19.5 12 22C9.5 19.5 8 16 8 12C8 8 9.5 4.5 12 2Z"
+                      stroke="currentColor" stroke-width="2" />
+                  </svg>
+                  Network
+                </div>
+                <div class="info-value">
+                  <span id="networkName">-</span>
+                  <span class="chain-id" id="chainId">Chain ID: -</span>
+                </div>
+              </div>
+
+              <!-- Network Status -->
+              <div class="network-status" id="networkStatus">
+                <div class="network-badge wrong" id="networkBadge">
+                  <span id="networkIcon">❌</span>
+                  <span id="networkStatusText">Wrong Network</span>
+                </div>
+                <button class="switch-network-btn hidden" id="switchNetworkBtn" onclick="switchToFuji()">
+                  Switch to Fuji Testnet
+                </button>
+              </div>
+
+              <!-- Wallet Address -->
+              <div class="info-group">
+                <div class="info-label">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 21V19C20 16.7909 18.2091 15 16 15H8C5.79086 15 4 16.7909 4 19V21" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" />
+                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" />
+                  </svg>
+                  Wallet Address
+                </div>
+                <div class="address-container">
+                  <span class="address-full" id="addressFull">-</span>
+                  <span class="address-short" id="addressShort">-</span>
+                  <button class="copy-btn" onclick="copyAddress()" title="Copy Address">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2" />
+                      <path
+                        d="M16 8V6C16 4.89543 15.1046 4 14 4H6C4.89543 4 4 4.89543 4 6V14C4 15.1046 4.89543 16 6 16H8"
+                        stroke="currentColor" stroke-width="2" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Balance -->
+              <div class="info-group">
+                <div class="info-label">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                    <path d="M12 6V18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <path
+                      d="M15 9.5C15 8.11929 13.6569 7 12 7C10.3431 7 9 8.11929 9 9.5C9 10.8807 10.3431 12 12 12C13.6569 12 15 13.1193 15 14.5C15 15.8807 13.6569 17 12 17C10.3431 17 9 15.8807 9 14.5"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                  Balance
+                </div>
+                <div class="balance-value">
+                  <span class="balance-amount" id="balanceAmount">0.00</span>
+                  <span class="balance-currency">AVAX</span>
+                </div>
+              </div>
+
+              <!-- Participant Info -->
+              <div class="info-group participant-info">
+                <div class="info-label">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  Peserta
+                </div>
+                <div class="participant-value" id="participantInfo">
+                  <span class="participant-name">Nama: Bryan Dewa Wicaksana</span>
+                  <span class="participant-nim">NIM: 211011401646</span>
+                </div>
+              </div>
+
+              <!-- Disconnect Button -->
+              <button class="disconnect-btn" onclick="disconnectWallet()">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H9" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" />
+                  <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                Disconnect Wallet
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Error Alert -->
+        <div class="error-alert hidden" id="errorAlert">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+            <path d="M12 8V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <circle cx="12" cy="16" r="1" fill="currentColor" />
+          </svg>
+          <span id="errorMessage">Error message here</span>
+          <button class="error-close" onclick="hideError()">×</button>
+        </div>
+
+        <!-- Info Cards -->
+        <section class="info-cards">
+          <div class="info-card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                  stroke="currentColor" stroke-width="2" />
+                <path d="M12 16V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                <circle cx="12" cy="8" r="1" fill="currentColor" />
+              </svg>
+            </div>
+            <h3>Core Wallet</h3>
+            <p>Wallet resmi untuk Avalanche. Install dari <a href="https://core.app/" target="_blank">core.app</a></p>
+          </div>
+
+          <div class="info-card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3>Fuji Testnet</h3>
+            <p>Chain ID: 43113. Dapatkan test AVAX dari <a
+                href="https://build.avax.network/console/primary-network/faucet" target="_blank">Faucet</a></p>
+          </div>
+
+          <div class="info-card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3>Avalanche C-Chain</h3>
+            <p>Smart contract chain yang compatible dengan EVM (Ethereum Virtual Machine)</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Pamulang University Short Course - Avalanche Indonesia 🏔️</p>
+    </footer>
+
+    <!-- Wallet Selection Modal -->
+    <div class="modal-overlay hidden" id="walletModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 class="modal-title">Pilih Wallet</h2>
+          <button class="modal-close" onclick="closeWalletModal()">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-subtitle">MetaMask juga mendukung Avalanche. Untuk Core Wallet, disable MetaMask terlebih
+            dahulu.</p>
+
+          <div class="wallet-options">
+            <!-- MetaMask Option -->
+            <button class="wallet-option" id="metamaskOption" onclick="connectWithProvider('metamask')">
+              <div class="wallet-option-icon metamask">
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M35.8 5.2L22.5 15.1L24.9 9.2L35.8 5.2Z" fill="#E2761B" stroke="#E2761B"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M4.2 5.2L17.4 15.2L15.1 9.2L4.2 5.2Z" fill="#E4761B" stroke="#E4761B" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M31 26.5L27.5 31.9L35 34L37.1 26.6L31 26.5Z" fill="#E4761B" stroke="#E4761B"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M2.9 26.6L5 34L12.5 31.9L9 26.5L2.9 26.6Z" fill="#E4761B" stroke="#E4761B"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M12.1 17.8L10.1 20.8L17.5 21.1L17.2 13.2L12.1 17.8Z" fill="#E4761B" stroke="#E4761B"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M27.9 17.8L22.7 13.1L22.5 21.1L29.9 20.8L27.9 17.8Z" fill="#E4761B" stroke="#E4761B"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M12.5 31.9L17 29.7L13.1 26.7L12.5 31.9Z" fill="#E4761B" stroke="#E4761B"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M23 29.7L27.5 31.9L26.9 26.7L23 29.7Z" fill="#E4761B" stroke="#E4761B" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M27.5 31.9L23 29.7L23.4 32.6L23.3 33.9L27.5 31.9Z" fill="#D7C1B3" stroke="#D7C1B3"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M12.5 31.9L16.7 33.9L16.6 32.6L17 29.7L12.5 31.9Z" fill="#D7C1B3" stroke="#D7C1B3"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M16.8 25.2L13 24.1L15.7 22.9L16.8 25.2Z" fill="#233447" stroke="#233447"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M23.2 25.2L24.3 22.9L27 24.1L23.2 25.2Z" fill="#233447" stroke="#233447"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M12.5 31.9L13.1 26.5L9 26.6L12.5 31.9Z" fill="#CD6116" stroke="#CD6116"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M26.9 26.5L27.5 31.9L31 26.6L26.9 26.5Z" fill="#CD6116" stroke="#CD6116"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M29.9 20.8L22.5 21.1L23.2 25.2L24.3 22.9L27 24.1L29.9 20.8Z" fill="#CD6116" stroke="#CD6116"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M13 24.1L15.7 22.9L16.8 25.2L17.5 21.1L10.1 20.8L13 24.1Z" fill="#CD6116" stroke="#CD6116"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M10.1 20.8L13.1 26.7L13 24.1L10.1 20.8Z" fill="#E4751F" stroke="#E4751F"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M27 24.1L26.9 26.7L29.9 20.8L27 24.1Z" fill="#E4751F" stroke="#E4751F" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M17.5 21.1L16.8 25.2L17.7 29.8L17.9 23.5L17.5 21.1Z" fill="#E4751F" stroke="#E4751F"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M22.5 21.1L22.1 23.5L22.3 29.8L23.2 25.2L22.5 21.1Z" fill="#E4751F" stroke="#E4751F"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M23.2 25.2L22.3 29.8L23 30.3L26.9 26.7L27 24.1L23.2 25.2Z" fill="#F6851B" stroke="#F6851B"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M13 24.1L13.1 26.7L17 30.3L17.7 29.8L16.8 25.2L13 24.1Z" fill="#F6851B" stroke="#F6851B"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M23.3 33.9L23.4 32.6L23 32.3H17L16.6 32.6L16.7 33.9L12.5 31.9L13.9 33.1L17 35.2H23L26.1 33.1L27.5 31.9L23.3 33.9Z"
+                    fill="#C0AD9E" stroke="#C0AD9E" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M23 29.7L22.3 29.2H17.7L17 29.7L16.6 32.6L17 32.3H23L23.4 32.6L23 29.7Z" fill="#161616"
+                    stroke="#161616" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M36.4 15.8L37.5 10.4L35.8 5.2L23 14.4L27.9 17.8L34.7 19.7L36.5 17.6L35.7 17L36.9 15.9L36 15.2L37.2 14.3L36.4 15.8Z"
+                    fill="#763D16" stroke="#763D16" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M2.5 10.4L3.6 15.8L2.8 14.3L4 15.2L3.1 15.9L4.3 17L3.5 17.6L5.3 19.7L12.1 17.8L17 14.4L4.2 5.2L2.5 10.4Z"
+                    fill="#763D16" stroke="#763D16" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M34.7 19.7L27.9 17.8L29.9 20.8L26.9 26.7L31 26.6H37.1L34.7 19.7Z" fill="#F6851B"
+                    stroke="#F6851B" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M12.1 17.8L5.3 19.7L2.9 26.6H9L13.1 26.7L10.1 20.8L12.1 17.8Z" fill="#F6851B"
+                    stroke="#F6851B" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M22.5 21.1L23 14.4L24.9 9.2H15.1L17 14.4L17.5 21.1L17.7 23.5V29.8H22.3V23.5L22.5 21.1Z"
+                    fill="#F6851B" stroke="#F6851B" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div class="wallet-option-info">
+                <span class="wallet-option-name">MetaMask</span>
+                <span class="wallet-option-desc">Popular browser wallet</span>
+              </div>
+              <div class="wallet-option-status" id="metamaskStatus">
+                <span class="status-badge detecting">Detecting...</span>
+              </div>
+            </button>
+
+            <!-- Core Wallet Option -->
+            <button class="wallet-option" id="coreOption" onclick="connectWithProvider('core')">
+              <div class="wallet-option-icon core">
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="20" cy="20" r="18" fill="#E84142" />
+                  <path d="M27.5 15L20 10L12.5 15V25L20 30L27.5 25V15Z" fill="white" />
+                  <path d="M20 18L16 20.5V25L20 27.5L24 25V20.5L20 18Z" fill="#E84142" />
+                </svg>
+              </div>
+              <div class="wallet-option-info">
+                <span class="wallet-option-name">Core Wallet</span>
+                <span class="wallet-option-desc">Official Avalanche wallet (disable MetaMask if not detected)</span>
+              </div>
+              <div class="wallet-option-status" id="coreStatus">
+                <span class="status-badge detecting">Detecting...</span>
+              </div>
+            </button>
+          </div>
+
+          <div class="modal-footer">
+            <p class="modal-hint">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                <path d="M12 16V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                <circle cx="12" cy="8" r="1" fill="currentColor" />
+              </svg>
+              Belum punya wallet? Install <a href="https://core.app/" target="_blank">Core Wallet</a> atau <a
+                href="https://metamask.io/" target="_blank">MetaMask</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

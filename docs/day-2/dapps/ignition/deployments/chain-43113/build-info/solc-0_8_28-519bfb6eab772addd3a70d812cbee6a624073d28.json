@@ -1,0 +1,39 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-519bfb6eab772addd3a70d812cbee6a624073d28",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "userSourceNameMap": {
+    "contracts/SimpleStorage.sol": "project/contracts/SimpleStorage.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/SimpleStorage.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.28;\n\n/**\n * @title SimpleStorage\n * @dev Smart contract untuk menyimpan nilai dengan ownership\n * @notice Contract ini akan digunakan untuk integrasi frontend pada Day 3\n */\ncontract SimpleStorage {\n    // State variables\n    uint256 private storedValue;\n    address public owner;\n\n    // Events\n    event OwnerSet(address indexed oldOwner, address indexed newOwner);\n    event ValueUpdated(uint256 oldValue, uint256 newValue);\n\n    /**\n     * @dev Constructor - set deployer sebagai owner\n     * Emit OwnerSet event saat deploy\n     */\n    constructor() {\n        owner = msg.sender;\n        emit OwnerSet(address(0), msg.sender);\n    }\n\n    /**\n     * @dev Modifier untuk restrict access hanya owner\n     */\n    modifier onlyOwner() {\n        require(msg.sender == owner, \"Not owner\");\n        _;\n    }\n\n    /**\n     * @dev Set nilai baru ke storage\n     * @param _value Nilai baru yang akan disimpan\n     * Emit ValueUpdated event\n     */\n    function setValue(uint256 _value) public {\n        uint256 oldValue = storedValue;\n        storedValue = _value;\n        emit ValueUpdated(oldValue, _value);\n    }\n\n    /**\n     * @dev Get nilai yang tersimpan\n     * @return Nilai yang tersimpan di storage\n     */\n    function getValue() public view returns (uint256) {\n        return storedValue;\n    }\n\n    /**\n     * @dev Transfer ownership ke address baru\n     * @param newOwner Address owner baru\n     * Hanya owner yang bisa memanggil function ini\n     */\n    function transferOwnership(address newOwner) public onlyOwner {\n        require(newOwner != address(0), \"New owner is zero address\");\n        address oldOwner = owner;\n        owner = newOwner;\n        emit OwnerSet(oldOwner, newOwner);\n    }\n}\n"
+      }
+    }
+  }
+}

@@ -1,5 +1,13 @@
 # 📘 Day 3 – Frontend dApp dengan Next.js (Avalanche)
 
+---
+
+## Pre-Test (10 menit)
+
+[Link](https://forms.gle/Jjt5ZtVrjT5WNnfA6)
+
+---
+
 > Avalanche Indonesia Short Course – **Day 3**
 
 Hari ketiga difokuskan pada **Frontend Layer**: bagaimana **Next.js** berinteraksi dengan **wallet** dan **smart contract** yang sudah dideploy pada Day 2.
@@ -43,15 +51,17 @@ Smart contract tetap menjadi **single source of truth**.
 
 ## ⏱️ Struktur Sesi (± 3 Jam)
 
-| Sesi    | Durasi | Aktivitas                        |
-| ------- | ------ | -------------------------------- |
-| Theory  | 1 Jam  | Frontend Web3 & Wallet Framework |
-| Demo    | 1 Jam  | Next.js + Reown + Smart Contract |
-| Praktik | 1 Jam  | Read & Write Contract Mandiri    |
+| Sesi                | Durasi   | Aktivitas                        |
+| ------------------- | -------- | -------------------------------- |
+| Pre-test            | 10 menit |                                  |
+| Theory              | 50 menit | Frontend Web3 & Wallet Framework |
+| Demo                | 1 Jam    | Next.js + Reown + Smart Contract |
+| Penjelasan Homework | 40 menit | Read & Write Contract Mandiri    |
+| Post-test           | 20 menit |                                  |
 
 ---
 
-# 1️⃣ Theory
+# 1️⃣ Theory (50 menit)
 
 ## 1.1 Peran Frontend dalam dApp
 
@@ -365,6 +375,8 @@ Handle kasus:
 - [ ] Write contract berhasil
 - [ ] Tx muncul di explorer
 
+[Submission Link](https://forms.gle/ma5m2n8eG3eDnCjX6) aktif selama 48 jam
+
 ---
 
 ## ✅ Output Day 3
@@ -403,6 +415,18 @@ Fokus Day 4:
 - Thirdweb: [https://thirdweb.com/](https://thirdweb.com/)
 - Next.js Docs: [https://nextjs.org/docs](https://nextjs.org/docs)
 - Avalanche Academy: [https://build.avax.network/academy](https://build.avax.network/academy)
+
+---
+
+## Post-Test
+
+[Link](https://forms.gle/dL7JuvX4HL5cwqtMA)
+
+---
+
+## Feedback
+
+[Link](https://forms.gle/mDWVh1NtDQkkwRpXA)
 
 ---
 

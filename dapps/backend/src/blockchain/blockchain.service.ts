@@ -13,17 +13,24 @@ export class BlockchainService {
   private contractAddress: `0x${string}`;
 
   constructor() {
+    // Use environment variable or default RPC URL
+    const rpcUrl =
+      process.env.RPC_URL || 'https://api.avax-test.network/ext/bc/C/rpc';
+
     this.client = createPublicClient({
       chain: avalancheFuji,
-      transport: http('https://api.avax-test.network/ext/bc/C/rpc'),
+      transport: http(rpcUrl),
     });
 
-    // GANTI dengan address hasil deploy Day 2
-    this.contractAddress =
-      '0x30bB041a81191e0f91D16a074804B94d0E7524E4' as `0x${string}`;
+    // Use environment variable for contract address
+    this.contractAddress = (process.env.CONTRACT_ADDRESS ||
+      '0x5776Db2269ec485a1C4f7988f92c9fE215bFBE1F') as `0x${string}`;
+
+    console.log(`📍 Using contract: ${this.contractAddress}`);
+    console.log(`🔗 Using RPC: ${rpcUrl}`);
   }
 
-  // 🔹 Read latest value
+  // 🔹 Read latest value and owner
   async getLatestValue() {
     try {
       const value: bigint = (await this.client.readContract({
@@ -32,8 +39,21 @@ export class BlockchainService {
         functionName: 'getValue',
       })) as bigint;
 
+      const owner: string = (await this.client.readContract({
+        address: this.contractAddress,
+        abi: SIMPLE_STORAGE.abi,
+        functionName: 'owner',
+      })) as string;
+
+      const blockNumber = await this.client.getBlockNumber();
+
       return {
         value: value.toString(),
+        owner,
+        blockNumber: blockNumber.toString(),
+        contractAddress: this.contractAddress,
+        network: 'Avalanche Fuji Testnet',
+        updatedAt: new Date().toISOString(),
       };
     } catch (error) {
       this.handleRpcError(error);
@@ -68,6 +88,20 @@ export class BlockchainService {
         value: event.args.newValue?.toString(),
         txHash: event.transactionHash,
       }));
+    } catch (error) {
+      this.handleRpcError(error);
+    }
+  }
+
+  // 🔹 Get current block number
+  async getCurrentBlockNumber() {
+    try {
+      const blockNumber = await this.client.getBlockNumber();
+      return {
+        blockNumber: blockNumber.toString(),
+        network: 'Avalanche Fuji Testnet',
+        timestamp: new Date().toISOString(),
+      };
     } catch (error) {
       this.handleRpcError(error);
     }

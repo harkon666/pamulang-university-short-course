@@ -4,7 +4,7 @@ import { GetEventsDto } from './dto/get-events.dto';
 
 @Controller('blockchain')
 export class BlockchainController {
-  constructor(private readonly blockchainService: BlockchainService) {}
+  constructor(private readonly blockchainService: BlockchainService) { }
 
   // GET /blockchain/value
   @Get('value')
@@ -12,12 +12,18 @@ export class BlockchainController {
     return this.blockchainService.getLatestValue();
   }
 
-  // GET /blockchain/events
+  // POST /blockchain/events
   @Post('events')
   async getEvents(@Body() body: GetEventsDto) {
     return this.blockchainService.getValueUpdatedEvents(
       body.fromBlock,
       body.toBlock,
     );
+  }
+
+  // GET /blockchain/block
+  @Get('block')
+  async getBlockNumber() {
+    return this.blockchainService.getCurrentBlockNumber();
   }
 }

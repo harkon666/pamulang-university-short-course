@@ -1,14 +1,18 @@
-# 🚀 Full Stack dApp - Avalanche Fuji Testnet
+# 🚀 Avalanche Full Stack dApp (Monorepo)
 
 Full stack dApp yang terintegrasi dengan smart contract SimpleStorage di Avalanche Fuji Testnet.
 
-## 📁 Struktur Project
+## 📁 Struktur Monorepo
 
 ```
 dapps/
-├── frontend/my-app/    # Next.js Frontend
-├── backend/            # NestJS Backend
-└── contracts/          # Smart Contracts
+├── frontend/        # Next.js Frontend
+├── backend/         # NestJS Backend
+├── contracts/       # Smart Contracts
+├── package.json     # Root package (workspaces)
+├── render.yaml      # Render deployment
+├── fly.*.toml       # Fly.io deployment
+└── README.md
 ```
 
 ## 🔧 Teknologi
@@ -22,35 +26,61 @@ dapps/
 
 ## 🏃 Quick Start
 
-### 1. Setup Backend
-
+### Install All Dependencies
 ```bash
-cd backend
 npm install
-cp .env.example .env
-# Edit .env dengan contract address yang benar
-npm run start:dev
 ```
 
-Backend berjalan di http://localhost:3001
-
-### 2. Setup Frontend
-
+### Run Both Services
 ```bash
-cd frontend/my-app
-npm install
-cp .env.example .env.local
-# Edit .env.local dengan URL backend
 npm run dev
 ```
 
-Frontend berjalan di http://localhost:3000
+### Run Individually
+```bash
+# Backend only (http://localhost:3001)
+npm run dev:backend
+
+# Frontend only (http://localhost:3000)
+npm run dev:frontend
+```
+
+### Build All
+```bash
+npm run build
+```
+
+## 🚀 Deployment
+
+### Option 1: Render
+1. Connect GitHub repo to Render
+2. Select "Blueprint" deployment
+3. Render akan otomatis detect `render.yaml`
+4. Set environment variables
+
+### Option 2: Fly.io
+
+**Deploy Backend:**
+```bash
+fly launch --config fly.backend.toml
+fly secrets set RPC_URL=https://api.avax-test.network/ext/bc/C/rpc
+fly secrets set CONTRACT_ADDRESS=0x5776Db2269ec485a1C4f7988f92c9fE215bFBE1F
+fly deploy --config fly.backend.toml
+```
+
+**Deploy Frontend:**
+```bash
+fly launch --config fly.frontend.toml
+fly secrets set NEXT_PUBLIC_BACKEND_URL=https://your-backend.fly.dev
+fly secrets set NEXT_PUBLIC_CONTRACT_ADDRESS=0x5776Db2269ec485a1C4f7988f92c9fE215bFBE1F
+fly deploy --config fly.frontend.toml
+```
 
 ## 📡 API Endpoints
 
 | Method | Endpoint             | Deskripsi                     |
 | ------ | -------------------- | ----------------------------- |
-| GET    | /blockchain/value    | Read stored value dari contract |
+| GET    | /blockchain/value    | Read stored value             |
 | GET    | /blockchain/block    | Get current block number      |
 | POST   | /blockchain/events   | Fetch ValueUpdated events     |
 
@@ -60,12 +90,9 @@ Frontend berjalan di http://localhost:3000
 0x5776Db2269ec485a1C4f7988f92c9fE215bFBE1F
 ```
 
-Deployed on Avalanche Fuji Testnet (Chain ID: 43113)
-
 ## 📋 Environment Variables
 
 ### Backend (.env)
-
 ```env
 RPC_URL=https://api.avax-test.network/ext/bc/C/rpc
 CONTRACT_ADDRESS=0x5776Db2269ec485a1C4f7988f92c9fE215bFBE1F
@@ -73,7 +100,6 @@ PORT=3001
 ```
 
 ### Frontend (.env.local)
-
 ```env
 NEXT_PUBLIC_BACKEND_URL=http://localhost:3001
 NEXT_PUBLIC_CONTRACT_ADDRESS=0x5776Db2269ec485a1C4f7988f92c9fE215bFBE1F
@@ -94,40 +120,5 @@ Frontend (Next.js)
      Wallet (MetaMask/Core) → Blockchain
 ```
 
-- **Read**: Frontend → Backend → Blockchain
-- **Write**: Frontend → Wallet → Blockchain
-
 📌 **Smart Contract = Single Source of Truth**
 📌 **Backend = Read-only, UX improvement layer**
-
-## 📖 Swagger Documentation
-
-Akses Swagger docs di:
-```
-http://localhost:3001/documentation
-```
-
-## 🧪 Testing
-
-### Test Backend API
-
-```bash
-# Get value
-curl http://localhost:3001/blockchain/value
-
-# Get block number
-curl http://localhost:3001/blockchain/block
-
-# Get events (dengan block range)
-curl -X POST http://localhost:3001/blockchain/events \
-  -H "Content-Type: application/json" \
-  -d '{"fromBlock": 50600000, "toBlock": 50650000}'
-```
-
-### Test Frontend
-
-1. Buka http://localhost:3000
-2. Connect wallet (MetaMask/Core)
-3. Switch ke Avalanche Fuji Testnet
-4. Read value (via backend)
-5. Set new value (via wallet transaction)

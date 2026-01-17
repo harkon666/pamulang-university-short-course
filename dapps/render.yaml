@@ -1,0 +1,45 @@
+# Render Blueprint for Monorepo Deployment
+# https://render.com/docs/blueprint-spec
+
+services:
+  # Backend Service (NestJS)
+  - type: web
+    name: avalanche-dapp-backend
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: npm ci && npm run build:backend
+    startCommand: npm run start:backend
+    rootDir: .
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: RPC_URL
+        sync: false
+      - key: CONTRACT_ADDRESS
+        sync: false
+    healthCheckPath: /
+
+  # Frontend Service (Next.js)
+  - type: web
+    name: avalanche-dapp-frontend
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: npm ci && npm run build:frontend
+    startCommand: npm run start:frontend
+    rootDir: .
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: NEXT_PUBLIC_BACKEND_URL
+        fromService:
+          name: avalanche-dapp-backend
+          type: web
+          property: host
+      - key: NEXT_PUBLIC_CONTRACT_ADDRESS
+        sync: false

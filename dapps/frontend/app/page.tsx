@@ -132,6 +132,7 @@ export default function Home() {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
             Full Stack dApp
           </h1>
+          <p className="text-gray-400 mt-2">Bryan Dewa Wicaksana - 211011401646</p>
           <p className="text-gray-400 mt-2">Avalanche Fuji Testnet</p>
           <p className="text-gray-500 text-sm mt-1">Frontend + Backend + Smart Contract</p>
         </div>
@@ -267,10 +268,10 @@ export default function Home() {
             {txStatus !== 'idle' && (
               <div
                 className={`p-3 rounded-xl ${txStatus === 'pending'
-                    ? 'bg-yellow-500/10 text-yellow-400'
-                    : txStatus === 'success'
-                      ? 'bg-green-500/10 text-green-400'
-                      : 'bg-red-500/10 text-red-400'
+                  ? 'bg-yellow-500/10 text-yellow-400'
+                  : txStatus === 'success'
+                    ? 'bg-green-500/10 text-green-400'
+                    : 'bg-red-500/10 text-red-400'
                   }`}
               >
                 <p className="text-sm">{txMessage}</p>

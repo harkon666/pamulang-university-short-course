@@ -10,7 +10,7 @@ async function bootstrap() {
 
   // Swagger Documentation
   const config = new DocumentBuilder()
-    .setTitle('Day 4 - Simple Storage dApp API')
+    .setTitle('Day 4 - Simple Storage dApp API - Bryan Dewa Wicaksana - 211011401646')
     .setDescription(
       'Backend API untuk membaca data dari SimpleStorage smart contract di Avalanche Fuji Testnet',
     )
